@@ -66,6 +66,7 @@ def parse_time(input_time):
 
 def main(name, startyear, startmonth, startday, showstart, showend, weeks):
     os.system('mkdir {}'.format(name))
+    os.system('mkdir ./{0}/raw-audio'.format(name))
     year = int(startyear)
     month = int(startmonth)
     day = int(startday)
@@ -84,7 +85,7 @@ def main(name, startyear, startmonth, startday, showstart, showend, weeks):
             end_time += 2400
         time = start_time - 30
         tmp_day = day
-        os.system('mkdir ./{0}/{0}_{1}-{2:02}-{3:02}'.format(name, year, month, day))
+        ffmpeg_string = '"concat:'
         while time < end_time:
             time += 30
             time = time_rollover(time)
@@ -96,11 +97,19 @@ def main(name, startyear, startmonth, startday, showstart, showend, weeks):
             year = date[0]
             month = date[1]
             tmp_day = date[2]
+
             if time < end_time:
                 times.append([month, tmp_day, time])
-    for t in times:
-        os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}* ./{4}/{4}_{0}-{1:02}-{2:02}/{4}_{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, t[0], t[1], t[2], name))
+                os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}* ./{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, month, tmp_day, time, name))
+                ffmpeg_string = ffmpeg_string + '{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3|'.format(year, month, tmp_day, time, name)
+
+        ffmpeg_string = ffmpeg_string.rstrip('|') + '"'
+        os.system('ffmpeg -i {0} -acodec copy {1}/{1}_{2}-{3:02}-{4:02}.mp3'.format(ffmpeg_string, name, year, month, day))
+
+    os.system('rm -r {0}/raw-audio'.format(name))
+    os.system('rm {0}.zip'.format(name))
     os.system('zip -r {0} {0}'.format(name))
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:

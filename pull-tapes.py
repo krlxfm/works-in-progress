@@ -84,6 +84,7 @@ def main(name, startyear, startmonth, startday, showstart, showend, weeks):
             end_time += 2400
         time = start_time - 30
         tmp_day = day
+        os.system('mkdir ./{0}/{0}_{1}-{2:02}-{3:02}'.format(name, year, month, day))
         while time < end_time:
             time += 30
             time = time_rollover(time)
@@ -98,7 +99,8 @@ def main(name, startyear, startmonth, startday, showstart, showend, weeks):
             if time < end_time:
                 times.append([month, tmp_day, time])
     for t in times:
-        os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}* ./{4}/'.format(year, t[0], t[1], t[2], name))
+        os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}* ./{4}/{4}_{0}-{1:02}-{2:02}/{4}_{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, t[0], t[1], t[2], name))
+    os.system('zip -r {0} {0}'.format(name))
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:

@@ -13,7 +13,7 @@ Pulls show tapes for a given show (or shows) from the server, merges audio files
 
 __Usage:__ `python3 pull-tapes-individual.py showName startYear startMonth startDay showStartTime showEndTime [NumberOfWeeks]`
 
-###_Note:_
+### _Note:_
 - Not compatible with shownames containing special characters such as `'`, `"`, `&`, `:`, `;`, `/`, `\`, `|`, `$`, etc.
   - Same as any other valid arguments on UNIX-like systems
 - If show tapes are missing or start at times other than the top and bottom of the hour, merge process may fail or not include some portion of the tapes.

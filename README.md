@@ -2,10 +2,10 @@
 Works in progress for future implementation on the website or for local use.
 
 ### _Required Packages:_
-- python3
-- ffmpeg
-- zip
-- scp
+- `python3`
+- `ffmpeg`
+- `zip`
+- `scp`
 
 ## pull-tapes-term
 

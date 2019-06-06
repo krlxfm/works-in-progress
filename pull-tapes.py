@@ -39,12 +39,7 @@ def parse_time(input_time):
     for i in range(len(time_list)):
         chunk = time_list[i]
         if len(chunk) <= 2:
-            if i == 0:
-                time += int(chunk)*100
-                if int(chunk) == 12 and pm == False:
-                    time -= int(chunk)*100
-            else:
-                time += int(chunk)
+            numbers = chunk
         else:
             numbers = ''
             for character in chunk:
@@ -55,13 +50,15 @@ def parse_time(input_time):
                         time += 0
                     if character.lower() == 'p':
                         time += 1200
-            if len(numbers) <= 2:
-                if i == 0:
-                    time += int(numbers)*100
-                else:
-                    time += int(numbers)
+        if len(numbers) <= 2:
+            if i == 0:
+                time += int(numbers)*100
+                if int(numbers) == 12 and pm == False:
+                    time -= int(numbers)*100
             else:
                 time += int(numbers)
+        else:
+            time += int(numbers)
     return time
 
 def main(name, startyear, startmonth, startday, showstart, showend, weeks):

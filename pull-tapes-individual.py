@@ -86,7 +86,7 @@ def main(name, startyear, startmonth, startday, showstart, showend, weeks=1):
         dt += timedelta(days=7)
 
     os.system('rm -r {0}/raw-audio'.format(name))
-    os.system('zip -r {0} {0}'.format(name))
+    os.system('zip -r {0}.zip {0}'.format(name))
 
 
 if __name__ == '__main__':

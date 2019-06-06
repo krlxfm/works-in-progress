@@ -61,7 +61,7 @@ def parse_time(input_time):
             time += int(numbers)
     return time
 
-def main(name, startyear, startmonth, startday, showstart, showend, weeks):
+def main(name, startyear, startmonth, startday, showstart, showend, weeks=1):
     os.system('mkdir {}'.format(name))
     os.system('mkdir ./{0}/raw-audio'.format(name))
     year = int(startyear)
@@ -91,14 +91,14 @@ def main(name, startyear, startmonth, startday, showstart, showend, weeks):
                 end_time -= 2400
             time = time % 10000
             date = date_rollover(year, month, tmp_day)
-            year = date[0]
-            month = date[1]
-            tmp_day = date[2]
+            y = date[0]
+            m = date[1]
+            d = date[2]
 
             if time < end_time:
-                times.append([month, tmp_day, time])
-                os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}*.mp3 ./{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, month, tmp_day, time, name))
-                ffmpeg_string = ffmpeg_string + '{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3|'.format(year, month, tmp_day, time, name)
+                times.append([m, d, time])
+                os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}*.mp3 ./{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3'.format(y, m, d, time, name))
+                ffmpeg_string = ffmpeg_string + '{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3|'.format(y, m, d, time, name)
 
         ffmpeg_string = ffmpeg_string.rstrip('|') + '"'
         os.system('ffmpeg -i {0} -acodec copy {1}/{1}_{2}-{3:02}-{4:02}.mp3'.format(ffmpeg_string, name, year, month, day))
@@ -119,10 +119,10 @@ if __name__ == '__main__':
     showstart = sys.argv[5]
     showend = sys.argv[6]
     if len(sys.argv) == 8:
-        shows = sys.argv[7]
+        weeks = sys.argv[7]
     else:
-        shows = 1
+        weeks = 1
     if len(sys.argv) > 8:
-        print('Usage: python3 sys.argv[0] showName startYear startMonth startDay showStartTime showEndTime [NumberOfWeeks]')
+        print('Usage: python3 {} showName startYear startMonth startDay showStartTime showEndTime [NumberOfWeeks]'.format(sys.argv[0]))
         quit()
-    main(name, year, startmonth, startday, showstart, showend, shows)
+    main(name, year, startmonth, startday, showstart, showend, weeks)

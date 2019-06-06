@@ -100,7 +100,7 @@ def main(name, startyear, startmonth, startday, showstart, showend, weeks):
 
             if time < end_time:
                 times.append([month, tmp_day, time])
-                os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}* ./{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, month, tmp_day, time, name))
+                os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}*.mp3 ./{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, month, tmp_day, time, name))
                 ffmpeg_string = ffmpeg_string + '{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3|'.format(year, month, tmp_day, time, name)
 
         ffmpeg_string = ffmpeg_string.rstrip('|') + '"'

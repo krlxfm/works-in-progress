@@ -37,9 +37,10 @@ def parse_time(input_time):
     return time
 
 def main(name, term, year, day_of_week, showstart, showend):
-    os.system('rm -r {0}*'.format(name))
-    os.system('mkdir {}'.format(name))
-    os.system('mkdir ./{0}/raw-audio'.format(name))
+    termID = year[-2:] + term[0].upper()
+    os.system('rm -r {0}_{1}*'.format(name, termID))
+    os.system('mkdir {0}_{1}'.format(name, termID))
+    os.system('mkdir ./{0}_{1}/raw-audio'.format(name, termID))
 
     term_dict = {'F':9, 'W':1, 'S':4}
     day_dict = {'mon':0, 'tue':1, 'wed':2, 'thu':3, 'fri':4, 'sat':5, 'sun':6}
@@ -82,16 +83,16 @@ def main(name, term, year, day_of_week, showstart, showend):
             month = tape.month
             day = tape.day
             time = tape.hour*100 + tape.minute
-            os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}*.mp3 ./{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, month, day, time, name))
-            ffmpeg_string = ffmpeg_string + '{4}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3|'.format(year, month, day, time, name)
+            os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}*.mp3 ./{4}_{5}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, month, day, time, name, termID))
+            ffmpeg_string = ffmpeg_string + '{4}_{5}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3|'.format(year, month, day, time, name, termID)
         
         ffmpeg_string = ffmpeg_string.rstrip('|') + '"'
-        os.system('ffmpeg -i {0} -acodec copy {1}/{1}_{2}-{3:02}-{4:02}.mp3'.format(ffmpeg_string, name, dt.year, dt.month, dt.day))
+        os.system('ffmpeg -i {0} -acodec copy {1}_{5}/{1}_{2}-{3:02}-{4:02}.mp3'.format(ffmpeg_string, name, dt.year, dt.month, dt.day, termID))
 
         dt += timedelta(days=7)
 
-    os.system('rm -r {0}/raw-audio'.format(name))
-    os.system('zip -r {0}.zip {0}'.format(name))
+    os.system('rm -r {0}_{1}/raw-audio'.format(name, termID))
+    os.system('zip -r {0}_{1}.zip {0}_{1}'.format(name, termID))
 
 
 if __name__ == '__main__':

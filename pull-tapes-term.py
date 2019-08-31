@@ -38,7 +38,8 @@ def parse_time(input_time):
 
 def main(name, term, year, day_of_week, showstart, showend):
     termID = year[-2:] + term[0].upper()
-    os.system('rm -r {0}_{1}*'.format(name, termID))
+    if os.path.exists('{0}_{1}'.format(name, termID)):
+        os.system('rm -r {0}_{1}*'.format(name, termID))
     os.system('mkdir {0}_{1}'.format(name, termID))
     os.system('mkdir ./{0}_{1}/raw-audio'.format(name, termID))
 
@@ -84,10 +85,16 @@ def main(name, term, year, day_of_week, showstart, showend):
             day = tape.day
             time = tape.hour*100 + tape.minute
             os.system('scp krlxdj@garnet.krlx.org:/Volumes/Sapphire/recordings/{0}-{1:02}-{2:02}_{3:04}*.mp3 ./{4}_{5}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, month, day, time, name, termID))
-            ffmpeg_string = ffmpeg_string + '{4}_{5}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3|'.format(year, month, day, time, name, termID)
+            if os.path.isfile('{4}_{5}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, month, day, time, name, termID)):
+                ffmpeg_string = ffmpeg_string + '{4}_{5}/raw-audio/{0}-{1:02}-{2:02}_{3:04}.mp3|'.format(year, month, day, time, name, termID)
+            else:
+                print('WARNING: No tape on record for {0}-{1:02}-{2:02}_{3:04}.mp3'.format(year, month, day, time))
         
         ffmpeg_string = ffmpeg_string.rstrip('|') + '"'
-        os.system('ffmpeg -i {0} -acodec copy {1}_{5}/{1}_{2}-{3:02}-{4:02}.mp3'.format(ffmpeg_string, name, dt.year, dt.month, dt.day, termID))
+        if ffmpeg_string != '"concat:':
+            os.system('ffmpeg -i {0} -acodec copy {1}_{5}/{1}_{2}-{3:02}-{4:02}.mp3'.format(ffmpeg_string, name, dt.year, dt.month, dt.day, termID))
+        else:
+            print('No tapes for {0} from {1}-{2:02}-{3:02}'.format(name, dt.year, dt.month, dt.day))
 
         dt += timedelta(days=7)
 

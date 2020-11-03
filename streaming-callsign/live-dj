@@ -1,0 +1,5 @@
+#!/bin/sh
+
+URL="http://krlxfm.airtime.pro/api/live-info-v2"
+
+curl -L "$URL" 2> /dev/null | grep "source_enabled" | grep "Live DJ" 1>/dev/null

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+CALLSIGN_DIR="$1"
+[ -n "$CALLSIGN_DIR" ] || CALLSIGN_DIR="callsigns"
+
+live-dj
+LIVE=$?
+LIVE=1
+
+if [ $LIVE -ne 0 ]; then
+    stream-stop
+    play-callsign "$CALLSIGN_DIR"
+    stream-start
+fi

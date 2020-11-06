@@ -1,8 +1,9 @@
 #!/bin/sh
 
 STREAM_URL="https://krlxfm.out.airtime.pro/krlxfm_a"
+CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-stream-status
+$CWD/stream-status
 STATUS=$?
 
 if [ $STATUS -eq 0 ]; then

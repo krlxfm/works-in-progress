@@ -1,15 +1,14 @@
 #!/bin/sh
 
-CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 CALLSIGN_DIR="$1"
 [ -n "$CALLSIGN_DIR" ] || CALLSIGN_DIR="callsigns"
 
-$CWD/live-dj
+live-dj
 LIVE=$?
 LIVE=1
 
 if [ $LIVE -ne 0 ]; then
-    $CWD/stream-stop
-    $CWD/play-callsign "$CALLSIGN_DIR"
-    $CWD/stream-start
+    stream-stop
+    play-callsign "$CALLSIGN_DIR"
+    stream-start
 fi

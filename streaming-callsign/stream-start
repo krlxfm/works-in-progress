@@ -2,15 +2,6 @@
 
 STREAM_URL="https://krlxfm.out.airtime.pro/krlxfm_a"
 
-stream-status
-STATUS=$?
-
-if [ $STATUS -eq 0 ]; then
-    read -p "Attach to existing session? [y/N] " ATTACH
-    if [ "$ATTACH" = "y" || "$ATTACH" = "Y" ]; then
-        tmux attach-session -t stream_live
-    fi
-    exit 0
-fi
+stream-status && echo "Stream is already listening live." && exit 1
 
 tmux new-session -ds stream_live "ffplay $STREAM_URL"

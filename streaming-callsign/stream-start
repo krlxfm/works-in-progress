@@ -2,6 +2,6 @@
 
 STREAM_URL="https://krlxfm.out.airtime.pro/krlxfm_a"
 
-tmux has-session -t stream_live > /dev/null && echo "Stream is already listening live" && exit 1
+tmux has-session -t stream_live 2> /dev/null && echo "Stream is already listening live" && exit 1
 
 tmux new-session -ds stream_live "ffplay $STREAM_URL"

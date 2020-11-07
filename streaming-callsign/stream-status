@@ -1,3 +1,8 @@
 #!/bin/sh
 
-tmux has-session -t stream_live 2> /dev/null
+tmux has-session -t stream_live 2> /dev/null && { echo "Stream is listening live"; exit 0; }
+
+tmux has-session -t callsign 2> /dev/null && { echo "Currently playing the callsign"; exit 0; }
+
+echo "No active streams"
+exit 1

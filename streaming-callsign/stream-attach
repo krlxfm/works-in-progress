@@ -1,0 +1,3 @@
+#!/bin/sh
+
+tmux attach-session -t stream_live || tmux attach-session -t callsign

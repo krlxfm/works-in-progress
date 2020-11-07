@@ -1,1 +1,1 @@
-*/30 * * * * auto-callsign
+*/30 * * * * export PATH=/usr/bin:/bin:/Users/krlxdj/works-in-progress/streaming-callsign; auto-callsign /Users/krlxdj/callsigns

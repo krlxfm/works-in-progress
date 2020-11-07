@@ -3,7 +3,7 @@
 CALLSIGN_DIR="$1"
 [ -n "$CALLSIGN_DIR" ] || CALLSIGN_DIR="callsigns"
 
-stream-status && stream-stop
+stream-status > /dev/null && stream-stop
 
 CALLSIGN_FILE="$(choose_random_file $CALLSIGN_DIR)"
 tmux new-session -ds callsign "ffplay -autoexit $CALLSIGN_FILE"

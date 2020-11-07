@@ -6,4 +6,4 @@ CALLSIGN_DIR="$1"
 stream-status > /dev/null && stream-stop
 
 CALLSIGN_FILE="$(choose-random-file $CALLSIGN_DIR)"
-tmux new-session -ds callsign "ffplay -autoexit $CALLSIGN_FILE"
+tmux new-session -s callsign "ffplay -autoexit $CALLSIGN_FILE"

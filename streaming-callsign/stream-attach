@@ -1,3 +1,3 @@
 #!/bin/sh
 
-tmux attach-session -t stream_live || tmux attach-session -t callsign
+tmux attach-session -t stream_live 2> /dev/null || tmux attach-session -t callsign 2> /dev/null || echo "No streaming sessions present"

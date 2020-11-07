@@ -2,4 +2,7 @@
 
 URL="http://krlxfm.airtime.pro/api/live-info-v2"
 
-curl -L "$URL" 2> /dev/null | grep "source_enabled" | grep "Live DJ" 1>/dev/null
+curl -L "$URL" 2> /dev/null | grep "source_enabled" | grep "Live DJ" 1>/dev/null && { echo "There is a live DJ"; exit 0; }
+
+echo "There is not a live DJ"
+exit 1

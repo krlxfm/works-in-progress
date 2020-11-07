@@ -3,7 +3,7 @@
 CALLSIGN_DIR="$1"
 [ -n "$CALLSIGN_DIR" ] || CALLSIGN_DIR="callsigns"
 
-live-dj
+live-dj > /dev/null
 LIVE=$?
 LIVE=1
 

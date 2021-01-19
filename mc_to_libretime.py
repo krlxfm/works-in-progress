@@ -87,29 +87,22 @@ def get_start_date(on_air, weekday):
     difference = WEEKDAY_DICT[weekday.lower()] - on_air.weekday() % 7
     return on_air.date() + datetime.timedelta(days=difference)
 
-def invalid_term_id(term_id):
-    print('ERROR: invalid term ID. Must be of the form 2021-WI, 2019-FA, 2018-SP.', file=sys.stderr)
-    exit(2)
-
 def check_argv():
-    if len(sys.argv) != 2 or not os.path.exists(sys.argv[1]):
-        print(f'ERROR: File not found: {sys.argv[0]}', file=sys.stderr)
+    arg_num = 3
+    if len(sys.argv) < arg_num:
+        print('ERROR: missing one or more required arguments.', file=sys.stderr)
+        print(f'USAGE: python[3] {sys.argv[0]} INPUT_CSV OUTPUT_CSV', file=sys.stderr)
+        exit(1)
+    elif len(sys.argv) > arg_num:
+        print('ERROR: too many arguments.', file=sys.stderr)
+        print(f'USAGE: python[3] {sys.argv[0]} INPUT_CSV OUTPUT_CSV', file=sys.stderr)
+        exit(1)
+    elif not os.path.exists(sys.argv[1]):
+        print(f'ERROR: file not found: {sys.argv[0]}', file=sys.stderr)
         exit(1)
 
 def main():
     check_argv()
-
-    '''
-    term_id = input('Please input term ID (of the form 2021-WI, 2019-FA, 2018-SP): ')
-    components = term_id.split('-')
-    if len(components) != 2:
-        invalid_term_id(term_id)
-    elif len(components[0]) != 4 and not components[0].isnumeric():
-        invalid_term_id(term_id)
-    elif components[1] not in ['FA', 'WI', 'SP']:
-        invalid_term_id(term_id)
-    on_air = get_on_air_date(term_id)
-    '''
 
     on_air = None
     show_dict = None
@@ -146,11 +139,14 @@ def main():
 
             out_list.append([name, startDate, startTime, endDate, endTime, login, password])
 
-    writer = csv.writer(sys.stdout)
-    header = ['name', 'startDate', 'startTime', 'endDate', 'endTime', 'login', 'password']
-    writer.writerow(header)
-    for row in out_list:
-        writer.writerow(row)
+    with open(sys.argv[2], 'w') as outfile:
+        writer = csv.writer(outfile)
+        header = ['name', 'startDate', 'startTime', 'endDate', 'endTime', 'login', 'password']
+        writer.writerow(header)
+        for row in out_list:
+            writer.writerow(row)
+
+    print(f'Wrote output to {sys.argv[2]}', file=sys.stderr)
 
 
 if __name__ == '__main__':

@@ -6,6 +6,10 @@ import mysql.connector as mysql
 import random
 
 from data_krlx_org_credentials import USER, PASSWORD
+# data_krlx_org_credentials.py should contain the proper credentials for
+# data.krlx.org, and should be given in the form:
+# USER = 'data.krlx.org username'
+# PASSWORD = 'accompanying password'
 
 HOST = 'data.krlx.org'
 DATABASE = 'krlx_missioncontrol'

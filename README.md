@@ -6,6 +6,7 @@ Works in progress for future implementation on the website or for local use.
 - `ffmpeg`
 - `zip`
 - `scp`
+- `selenium`
 
 ## pull-tapes-term
 
@@ -24,3 +25,9 @@ __Usage:__ `python3 pull-tapes-individual.py showName startYear startMonth start
   - Same as any other valid arguments on UNIX-like systems
 - If show tapes are missing or start at times other than the top and bottom of the hour, merge process may fail or not include some portion of the tapes.
 
+## showScheduler
+Books shows from a pre processed csv on our libretime instance, stream.krlx.org.
+
+__Usage:__ `python3 showScheduler`
+###  _Note:_
+- You must set the `user` and `pass` varribles with a login.

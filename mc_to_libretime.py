@@ -108,6 +108,7 @@ def main():
     show_dict = None
 
     out_list = []
+    login_passwords = {}
 
     with open(sys.argv[1]) as infile:
         reader = csv.reader(infile)
@@ -135,7 +136,9 @@ def main():
             endDate = startDate if end > start else startDate + datetime.timedelta(days=1)
             endTime = end
             login = show_dict[id]['emails'][0].split('@')[0]
-            password = '{:08}'.format(random.randrange(0, 100000000))
+            if login not in login_passwords:
+                login_passwords[login] = '{:08}'.format(random.randrange(0, 100000000))
+            password = login_passwords[login]
 
             out_list.append([name, startDate, startTime, endDate, endTime, login, password])
 

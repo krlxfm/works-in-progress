@@ -17,6 +17,7 @@ def get_credentials_filename():
     if len(sys.argv) > 1:
         credentials_filename = sys.argv[1]
     assert(os.path.exists(credentials_filename))
+    return credentials_filename
 
 def main():
     driver = webdriver.Chrome()
@@ -30,7 +31,8 @@ def main():
     driver.find_element_by_name("submit").click()
     driver.get(f"http://{DOMAIN}/schedule")
 
-    with open('show_credentials.csv', newline='') as infile:
+    credentials_filename = get_credentials_filename()
+    with open(credentials_filename, newline='') as infile:
         reader = csv.reader(infile)
         for row in reader:
             name, start_date, start_time, end_date, end_time, login, password, emails = row
@@ -73,3 +75,6 @@ def main():
             driver.find_element_by_xpath("//*[text()='Add this show']").click()
 
             time.sleep(5)
+
+if __name__ == '__main__':
+    main()

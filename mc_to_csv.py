@@ -139,12 +139,13 @@ def main():
             if login not in login_passwords:
                 login_passwords[login] = '{:08}'.format(random.randrange(0, 100000000))
             password = login_passwords[login]
+            email_str = ':'.join(show_dict[id]['emails'])
 
-            out_list.append([name, startDate, startTime, endDate, endTime, login, password])
+            out_list.append([name, startDate, startTime, endDate, endTime, login, password, email_str])
 
     with open(sys.argv[2], 'w') as outfile:
         writer = csv.writer(outfile)
-        header = ['name', 'startDate', 'startTime', 'endDate', 'endTime', 'login', 'password']
+        header = ['name', 'startDate', 'startTime', 'endDate', 'endTime', 'login', 'password', 'emails']
         writer.writerow(header)
         for row in out_list:
             writer.writerow(row)

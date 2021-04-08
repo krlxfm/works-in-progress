@@ -35,7 +35,7 @@ def get_term_id(show_id):
     conn.close()
     return term_id
 
-def get_on_air_date(term_id):
+def get_on_air_datetime(term_id):
     on_air = ''
     conn = mysql.connect(host=HOST, database=DATABASE, user=USER, password=PASSWORD)
     cursor = conn.cursor()
@@ -83,8 +83,10 @@ def get_djs_from_id(show_id):
     conn.close()
     return users, emails
 
-def get_start_date(on_air, weekday):
-    difference = WEEKDAY_DICT[weekday.lower()] - on_air.weekday() % 7
+def get_start_date(on_air, weekday, start):
+    difference = (WEEKDAY_DICT[weekday.lower()] - on_air.weekday()) % 7
+    if difference == 0 and datetime.time.fromisoformat(start) < on_air.time():
+        difference = 7
     return on_air.date() + datetime.timedelta(days=difference)
 
 def check_argv():
@@ -124,14 +126,14 @@ def main():
 
             if on_air == None:
                 term_id = get_term_id(id)
-                on_air = get_on_air_date(term_id)
+                on_air = get_on_air_datetime(term_id)
                 show_dict = get_show_dict(term_id)
 
             if not (day and start and end):
                 continue    # show not assigned a time
 
             name = title
-            startDate = get_start_date(on_air, day.lower())
+            startDate = get_start_date(on_air, day.lower(), start)
             startTime = start
             endDate = startDate if end > start else startDate + datetime.timedelta(days=1)
             endTime = end

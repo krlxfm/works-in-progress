@@ -3,6 +3,9 @@ Works in progress for future implementation on the website or for local use.
 
 ### _Required Packages:_
 - `python3`
+- `selenium` package for `python3`
+- `chromedriver`
+- `Chrome` binary in path
 - `ffmpeg`
 - `zip`
 - `scp`

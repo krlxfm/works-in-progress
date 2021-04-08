@@ -68,3 +68,4 @@ fabric.properties
 **__pycache__
 **data_krlx_org_credentials.py
 **libretime_credentials.py
+**email_credentials.py
